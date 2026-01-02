@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="BugTrackingSystem.API/BugTrackingSystem.API.csproj" />
+  <Project Path="BugTrackingSystem.Application/BugTrackingSystem.Application.csproj" Id="ffafd63a-5a05-4bdf-bdd9-7b2140001751" />
+  <Project Path="BugTrackingSystem.Domain/BugTrackingSystem.Domain.csproj" Id="bf2c1691-7916-4951-bc13-2e2f7608bf10" />
+  <Project Path="BugTrackingSystem.Infrastructure/BugTrackingSystem.Infrastructure.csproj" Id="faa3d80e-fc81-4ad7-8164-4a90242a4a79" />
+</Solution>

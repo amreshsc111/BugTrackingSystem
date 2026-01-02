@@ -1,0 +1,6 @@
+@BugTrackingSystem.API_HostAddress = http://localhost:5068
+
+GET {{BugTrackingSystem.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,66 @@
+# .gitignore for .NET 10 + Visual Studio projects
+
+# Visual Studio workspace
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+bin/
+obj/
+out/
+artifacts/
+publish/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# NuGet packages and caches
+*.nupkg
+*.snupkg
+packages/
+.nuget/packages/
+packages.lock.json
+project.assets.json
+
+# Dotnet tool files
+.dotnet/
+.tools/
+
+# Test and coverage
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.lcov
+
+# Logs, DB and generated files
+*.log
+*.dbmdl
+*.pdb
+*.pidb
+*.cache
+
+# Publish / deployment
+*.Publish.xml
+
+# Local secrets / settings (do NOT commit secrets)
+local.settings.json
+secrets.json
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Other editor/temp files
+*.swp
+*~

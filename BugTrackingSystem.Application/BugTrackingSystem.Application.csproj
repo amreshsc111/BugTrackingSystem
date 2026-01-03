@@ -7,7 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
+    <Compile Remove="Abstractions\**" />
+    <EmbeddedResource Remove="Abstractions\**" />
+    <None Remove="Abstractions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BugTrackingSystem.Domain\BugTrackingSystem.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Bugs\" />
     <Folder Include="DTOs\" />
   </ItemGroup>

@@ -35,9 +35,12 @@ namespace BugTrackingSystem.Application.Bugs.CommandHandlers
                 Title = command.Request.Title,
                 Description = command.Request.Description,
                 Severity = command.Request.Severity,
-                Status = Domain.Enums.GeneralEnums.BugStatus.Open,
                 ReproductionSteps = command.Request.ReproductionSteps,
                 ReporterId = command.ReporterId,
+                AssignedToId = command.Request.AssignedToId,
+                Status = command.Request.AssignedToId.HasValue 
+                    ? Domain.Enums.GeneralEnums.BugStatus.InProgress 
+                    : Domain.Enums.GeneralEnums.BugStatus.Open,
                 Attachments = attachments,
                 CreatedById = command.ReporterId,
                 CreatedDate = DateTime.UtcNow

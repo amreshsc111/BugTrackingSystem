@@ -9,6 +9,7 @@ namespace BugTrackingSystem.API.DTOs
         public string? Description { get; set; }
         public BugSeverity Severity { get; set; }
         public string? ReproductionSteps { get; set; }
+        public Guid? AssignedToId { get; set; }
         public List<IFormFile> Attachments { get; set; } = [];
     }
 }

@@ -14,7 +14,7 @@ namespace BugTrackingSystem.API.Controllers
     [Authorize]
     public class BugsController(IMediator mediator) : BaseApiController
     {
-        [HttpPost]
+        [HttpPost("create-bug")]
         public async Task<IActionResult> CreateBug([FromForm] CreateBugFormRequest formRequest)
         {
             if (!TryGetUserId(out var userId)) return Unauthorized();
@@ -40,6 +40,7 @@ namespace BugTrackingSystem.API.Controllers
                 Description = formRequest.Description,
                 Severity = formRequest.Severity,
                 ReproductionSteps = formRequest.ReproductionSteps,
+                AssignedToId = formRequest.AssignedToId,
                 Attachments = attachments
             };
 
@@ -67,7 +68,7 @@ namespace BugTrackingSystem.API.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("search")]
         [Authorize(Roles = "Developer")]
         public async Task<IActionResult> SearchBugs([FromQuery] SearchBugsRequest request)
         {
@@ -75,8 +76,8 @@ namespace BugTrackingSystem.API.Controllers
             return Ok(bugs);
         }
 
-        [HttpGet("my-bugs")]
-        public async Task<IActionResult> GetMyBugs()
+        [HttpGet("list-bugs")]
+        public async Task<IActionResult> GetBugsList()
         {
             if (!TryGetUserId(out var userId)) return Unauthorized();
 

@@ -22,7 +22,8 @@ namespace BugTrackingSystem.Infrastructure.Identity
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(ClaimTypes.Name, user.UserName),
                 new(ClaimTypes.Email, user.Email),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new("canReportBugs", user.Roles.Any(r => r.Name == "Reporter" || r.Name == "Admin" || r.Name == "User") ? "true" : "false")
             };
 
             // Add role claims for authorization

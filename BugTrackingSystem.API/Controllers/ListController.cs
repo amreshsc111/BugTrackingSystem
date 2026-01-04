@@ -24,5 +24,21 @@ namespace BugTrackingSystem.API.Controllers
             var severityLevels = await mediator.Send(new GetSeverityLevelsQuery());
             return Ok(severityLevels);
         }
+
+        [HttpGet("developers")]
+        [Authorize]
+        public async Task<IActionResult> GetDevelopers()
+        {
+            var developers = await mediator.Send(new GetDevelopersQuery());
+            return Ok(developers);
+        }
+
+        [HttpGet("statuses")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetBugStatuses()
+        {
+            var statuses = await mediator.Send(new GetBugStatusesQuery());
+            return Ok(statuses);
+        }
     }
 }

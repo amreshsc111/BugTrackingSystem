@@ -10,9 +10,19 @@ namespace BugTrackingSystem.Infrastructure.Data
             {
                 dbContext.Roles.AddRange(
                 [
-                    new Role { Name = "Admin", Description = "Admin" },
-                    new Role { Name = "Developer", Description = "Developer" },
-                    new Role { Name = "Reporter", Description = "Reporter" }
+                    new Role { Name = "User", Description = "User" },
+                    new Role { Name = "Developer", Description = "Developer" }
+                ]);
+                dbContext.SaveChanges();
+            }
+
+            if (!dbContext.SeverityLevels.Any())
+            {
+                dbContext.SeverityLevels.AddRange(
+                [
+                    new SeverityLevel { Name = "Low", Description = "Low" },
+                    new SeverityLevel { Name = "Medium", Description = "Medium" },
+                    new SeverityLevel { Name = "High", Description = "High" }
                 ]);
                 dbContext.SaveChanges();
             }

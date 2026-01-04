@@ -12,7 +12,11 @@ namespace BugTrackingSystem.Domain.Entities
         public string? ReproductionSteps { get; set; }
 
         public Guid ReporterId { get; set; }
+        public User Reporter { get; set; } = null!;
 
         public Guid? AssignedToId { get; set; }
+        public User? AssignedTo { get; set; }
+
+        public ICollection<BugAttachment> Attachments { get; set; } = [];
     }
 }

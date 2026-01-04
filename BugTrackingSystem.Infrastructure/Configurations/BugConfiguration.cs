@@ -17,15 +17,20 @@ namespace BugTrackingSystem.Infrastructure.Configurations
             builder.Property(b => b.Description)
                 .HasMaxLength(2000);
 
-            builder.HasOne<User>()
+            builder.HasOne(b => b.Reporter)
                 .WithMany()
                 .HasForeignKey(b => b.ReporterId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<User>()
+            builder.HasOne(b => b.AssignedTo)
                 .WithMany()
                 .HasForeignKey(b => b.AssignedToId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(b => b.Attachments)
+                .WithOne(a => a.Bug)
+                .HasForeignKey(a => a.BugId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -3,7 +3,7 @@
     public class AuthorizationPolicies
     {
         // Policy names
-        public const string AdminOnly = "AdminOnly";
+        public const string UserOnly = "UserOnly";
         public const string DeveloperOnly = "DeveloperOnly";
         public const string AllRoles = "AllRoles";
 

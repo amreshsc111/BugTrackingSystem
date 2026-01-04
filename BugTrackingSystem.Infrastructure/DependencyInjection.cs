@@ -1,4 +1,5 @@
 ﻿using BugTrackingSystem.Application.Interfaces;
+using BugTrackingSystem.Domain.Common;
 using BugTrackingSystem.Infrastructure.Data;
 using BugTrackingSystem.Infrastructure.Repositories;
 using BugTrackingSystem.Infrastructure.Identity;
@@ -17,6 +18,9 @@ namespace BugTrackingSystem.Infrastructure
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
+            // Configure JwtConfig
+            services.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
+
             services.AddScoped<DataSeedHelper>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -24,6 +28,7 @@ namespace BugTrackingSystem.Infrastructure
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            services.AddScoped<IFileService, Services.FileService>();
 
             return services;
         }

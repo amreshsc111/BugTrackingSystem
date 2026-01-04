@@ -6,12 +6,10 @@ namespace BugTrackingSystem.Domain.Enums
     {
         public enum Role
         {
-            [Description("Admin")]
-            Admin = 1,
+            [Description("User")]
+            User = 1,
             [Description("Developer")]
-            Developer = 2,
-            [Description("Reporter")]
-            Reporter = 3
+            Developer = 2
         }
 
         public enum BugSeverity

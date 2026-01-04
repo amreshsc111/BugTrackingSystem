@@ -1,11 +1,11 @@
 using BugTrackingSystem.API.Extensions;
+using BugTrackingSystem.API.Middleware;
 using BugTrackingSystem.Application;
 using BugTrackingSystem.Infrastructure;
 using BugTrackingSystem.Infrastructure.Data;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +15,7 @@ builder.Services.AddApplicationServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddScalarConfiguration();
 
 // Add Authentication
 builder.Services.AddApiAuthentication(builder.Configuration);
@@ -29,21 +27,21 @@ var app = builder.Build();
 // Auto-migration
 app.ApplyMigrations();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var seeder = scope.ServiceProvider.GetRequiredService<DataSeedHelper>();
-//    seeder.InsertData();
-//}
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.MapOpenApi();
+    var seeder = scope.ServiceProvider.GetRequiredService<DataSeedHelper>();
+    seeder.InsertData();
 }
 
+// Global Exception Handler - Must be first
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
+// Configure the HTTP request pipeline.
+app.MapOpenApi();
+app.MapScalarApiReference();
+
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 

@@ -1,3 +1,4 @@
+using BugTrackingSystem.Application.Exceptions;
 using BugTrackingSystem.Application.Interfaces;
 using BugTrackingSystem.Domain.Entities;
 using MediatR;
@@ -8,25 +9,44 @@ namespace BugTrackingSystem.Application.Auth.Commands.Register
     {
         public async Task<Guid> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            // Check if user exists (simplification: just checking email)
-            // ideally we should check username too or use a domain service/validator
-            
-            // Checking logic specific to just email for now
-            // Note: Since repository doesn't have specific "GetByEmail" yet, we might need to add it or fetch all (inefficient) or use Find/Predicate if Repo supports it.
-            // Assuming we use standard repo, checking via direct access or needed method. 
-            // For now, I'll assume usage of IUnitOfWork to get repository but Standard Repo might lack "Find".
-            // However, based on previous Repository implementation, it only had GetById and GetAll.
-            // I should probably skip the check or rely on DB constraint for now, or fetch all users (bad for perf but ok for prototype).
-            // Actually, I'll rely on DB Unique Index on Email/Username I added in Configuration.
-            
+            // Check if username already exists
+            var existingUserByUsername = await unitOfWork.Repository<User>()
+                .FindOneAsync(u => u.UserName == request.UserName);
+            if (existingUserByUsername != null)
+            {
+                throw new ValidationException("UserName", "Username already exists.");
+            }
+
+            // Check if email already exists
+            var existingUserByEmail = await unitOfWork.Repository<User>()
+                .FindOneAsync(u => u.Email == request.Email);
+            if (existingUserByEmail != null)
+            {
+                throw new ValidationException("Email", "Email already exists.");
+            }
+
+            // Verify role exists
+            var role = await unitOfWork.Repository<Role>()
+                .FindOneAsync(r => r.Id == request.RoleId);
+            if (role == null)
+            {
+                throw new ValidationException("RoleId", "Invalid role.");
+            }
+
             var user = new User
             {
                 UserName = request.UserName,
                 Email = request.Email,
-                PasswordHash = passwordHasher.HashPassword(request.Password)
+                PasswordHash = passwordHasher.HashPassword(request.Password),
+                CreatedById = Guid.Empty, // System created
+                CreatedDate = DateTime.UtcNow
             };
 
             await unitOfWork.Repository<User>().AddAsync(user);
+            await unitOfWork.CompleteAsync();
+
+            // Assign role to user
+            user.Roles.Add(role);
             await unitOfWork.CompleteAsync();
 
             return user.Id;

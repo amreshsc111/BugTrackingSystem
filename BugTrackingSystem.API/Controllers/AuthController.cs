@@ -3,6 +3,7 @@ using BugTrackingSystem.Application.Auth.Commands.Logout;
 using BugTrackingSystem.Application.Auth.Commands.Register;
 using BugTrackingSystem.Application.Auth.Commands.RefreshToken;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BugTrackingSystem.API.Controllers
@@ -33,6 +34,7 @@ namespace BugTrackingSystem.API.Controllers
         }
 
         [HttpPost("logout")]
+        [Authorize]
         public async Task<IActionResult> Logout([FromBody] LogoutCommand command)
         {
             await mediator.Send(command);

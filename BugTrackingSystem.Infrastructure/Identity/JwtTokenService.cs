@@ -18,21 +18,25 @@ namespace BugTrackingSystem.Infrastructure.Identity
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
 
             var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name, user.UserName)
-        };
+            {
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Name, user.UserName),
+                new(ClaimTypes.Email, user.Email),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
             // Add role claims for authorization
             foreach (var role in user.Roles)
             {
-                claims.Add(new Claim(AuthorizationPolicies.RoleClaimType, role.Name));
+                claims.Add(new Claim(ClaimTypes.Role, role.Name));
             }
 
             var token = new JwtSecurityToken(
+                issuer: jwtConfig.Value.Issuer,
+                audience: jwtConfig.Value.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(expiryMinutes),
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
+                expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

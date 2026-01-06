@@ -11,6 +11,8 @@ COPY ["BugTrackingSystem.API/BugTrackingSystem.API.csproj", "BugTrackingSystem.A
 COPY ["BugTrackingSystem.Application/BugTrackingSystem.Application.csproj", "BugTrackingSystem.Application/"]
 COPY ["BugTrackingSystem.Domain/BugTrackingSystem.Domain.csproj", "BugTrackingSystem.Domain/"]
 COPY ["BugTrackingSystem.Infrastructure/BugTrackingSystem.Infrastructure.csproj", "BugTrackingSystem.Infrastructure/"]
+COPY "Directory.Build.props" .
+COPY "Directory.Packages.props" .
 RUN dotnet restore "./BugTrackingSystem.API/BugTrackingSystem.API.csproj"
 COPY . .
 WORKDIR "/src/BugTrackingSystem.API"

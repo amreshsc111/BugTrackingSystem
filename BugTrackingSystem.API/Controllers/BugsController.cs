@@ -48,6 +48,15 @@ namespace BugTrackingSystem.API.Controllers
             return Ok(new { BugId = bugId });
         }
 
+
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> GetBugById(Guid id)
+        {
+            var bug = await mediator.Send(new GetBugByIdQuery(id));
+            if (bug == null) return NotFound();
+            return Ok(bug);
+        }
+
         [HttpPut("{id}/assign")]
         [Authorize(Roles = "Developer")]
         public async Task<IActionResult> AssignBug(Guid id, [FromBody] AssignBugRequest request)

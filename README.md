@@ -2,6 +2,8 @@
 
 A simple bug tracking backend built with .NET 10, MediatR and ASP.NET Core Web API. Implements authenticated endpoints for creating, assigning and managing bugs with support for file attachments.
 
+Frontend: https://github.com/amreshsc111/BugTrackingSystem-FE
+
 ## Highlights
 - .NET 10 Web API
 - MediatR-based CQRS commands/queries
